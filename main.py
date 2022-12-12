@@ -40,8 +40,8 @@ def train(X,Y, epochs, lr) :
     input_activations = X
     expected_output = Y
 
-    #number of training observations
-    m = X.size
+    #m = number of training observations
+    r,m = X.shape
 
     #training episodes
     for _ in range(epochs) :
@@ -99,4 +99,5 @@ X = np.array([[0,0,1,1], [0,1,0,1]])
 Y = np.array([0,1,1,0])
 
 train(X, Y, 10000, 0.1)
+
 
