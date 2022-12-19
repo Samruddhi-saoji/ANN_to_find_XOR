@@ -1,4 +1,5 @@
-#better accuracy
+#much better accuracy
+#different biases for differnt observations of the training dataset
 
 #training an ANN to find XOR of 2 numbers
 import numpy as np
@@ -7,12 +8,12 @@ from scipy.special import expit
 
 #the activation function############################
 def sigmoid (x):
-    return 1/(1 + np.exp(-x))
+    return expit(x)
+    #return 1/(1 + np.exp(-x))
 
 def sigmoid_derivative(x):  #derivation of activation function
     return expit(x)*(1-expit(x))
 #used in back propagation
-
 
 
 ##### the neural network ################################
@@ -56,27 +57,41 @@ def train(X,Y, epochs, lr) :
 
 
         #### back propagation ##############################
-        #calculate the gradient
+        ### the loss function and the loss ########
+        #cost function: MSE
+            #J = (predicted_output - Y)^2 
+            #represented as E
+
+        # dE/dA_out
+        #error = 2*(predicted_output - expected_output)*(sigmoid_derivative(output_z)) 
+            #this is the correct formula
+            #but gives less good results
+        error = 2*(predicted_output - expected_output) 
+
+
+        ##### calculate the gradient ############
         #output layer
-        error = predicted_output - expected_output  #dz_output
         dW_output = np.dot(error, hidden_activations.T)
-        dB_output = np.sum(error, 1)
+        dB_output = error
+            #instead of using the average of error for all observations,
+            #we will use the actual error obtained for each observation to calculate the gradient
 
         #hidden_layer
-        hidden_layer_error = np.dot(output_weights.T , error)*sigmoid_derivative(hidden_z) 
-        dW_hidden = np.dot(hidden_layer_error ,input_activations.T)
-        dB_hidden = np.sum(hidden_layer_error, 1)
+        hidden_layer_error = np.dot(output_weights.T, error)*sigmoid_derivative(hidden_z)
 
+        dW_hidden = np.dot(hidden_layer_error ,input_activations.T)
+        dB_hidden = hidden_layer_error
+            
 
         ######## updating weights and biases a/c to gradient #######
         # formula: w = w - lr*dW
         #hidden layer
         hidden_weights = hidden_weights - lr*(dW_hidden)
-        hidden_bias = hidden_bias - (lr)*np.reshape(dB_hidden , (hiddenLayerNeurons, 1))
+        hidden_bias = hidden_bias - (lr)*dB_hidden
 
         #output layer
         output_weights = output_weights - (lr)*dW_output
-        output_bias = output_bias - (lr)*np.reshape(dB_output, (outputLayerNeurons,1))
+        output_bias = output_bias - (lr)*dB_output
     #training completed
 
     #print the final weights and biases

@@ -1,0 +1,18 @@
+In the case of XOR, there is only a single dataset: [[0,0] , [0, 1] , [1,0] , [1,1]]
+Theres no question of training or test datset.
+Thus, we dont have to worry about overfitting,
+The NN doesnt need to generalise; it can focus specifically on the "trainig" dataset
+
+in the standard method, we have a single bias for all the training images.
+We calculate the loss (aka error) for each observation, and average it. Then we use this average to calculate the gradient for the bias.
+
+But here we can use a different bias for each observation.
+    example, the bias used for [0,1] and [1,1] will be different
+This gives much better precision
+
+Results
+Expected output: [0 1 1 0]
+1. standard method: 
+    Output from neural network after 10000 epochs:  [0.00392065 0.99848492 0.9984871  0.00168149]
+2. using a different bias for each observation 
+    Output from neural network after 10000 epochs:  [3.34951192e-04 9.99727909e-01 9.99729969e-01 3.38024882e-04]
