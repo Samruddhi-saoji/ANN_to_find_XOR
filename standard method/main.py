@@ -70,16 +70,16 @@ def train(X,Y, epochs, lr) :
 
         ##### calculate the gradient ############
         #output layer
-        dW_output = np.dot(error, hidden_activations.T)
-        dB_output = np.sum(error, 1)/m 
+        dW_output = np.dot(error, hidden_activations.T)  #dE/dW_out
+        dB_output = np.sum(error, 1)/m   #dE/dB_out
             #gradient for bias = sum(error for each training observation) / number of training observations
         
         #hidden_layer
         hidden_layer_error = np.dot(output_weights.T, error)*sigmoid_derivative(hidden_z)
 
-        dW_hidden = np.dot(hidden_layer_error ,input_activations.T)
-        dB_hidden = np.sum(hidden_layer_error, 1)/m
-
+        dW_hidden = np.dot(hidden_layer_error ,input_activations.T) #dE/dW_hidden
+        dB_hidden = np.sum(hidden_layer_error, 1)/m  #dE/dB_hidden
+        
 
         ######## updating weights and biases a/c to gradient #######
         # formula: w = w - lr*dW
